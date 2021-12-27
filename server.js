@@ -15,6 +15,10 @@ const Product = require('./models/product')
 
 mongoose.connect('mongodb://goRush:gsb2332065@cluster0-shard-00-00.rikek.mongodb.net:27017,cluster0-shard-00-01.rikek.mongodb.net:27017,cluster0-shard-00-02.rikek.mongodb.net:27017/inventory?ssl=true&replicaSet=atlas-tr9az4-shard-0&authSource=admin&retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true});
 
+document.getElementById("add_more_fields").addEventListener("click", addItems);
+var additional_item = document.getElementById('additional_item');
+var countadd = 0;
+
 app.set('view engine','ejs')
 
 
