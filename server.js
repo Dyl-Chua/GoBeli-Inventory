@@ -3,6 +3,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 // const productRouter = require('./routes/inventory')
 const Producto = require('./models/product')
+const BalikO = require('./models/returns')
 const methodOverride = require('method-override')
 const bcrypt = require('bcrypt')
 const passport = require('passport')
@@ -14,6 +15,7 @@ const SaleO = require('./models/sale')
 
 const Product = require('./models/product')
 const Sale = require('./models/sale')
+const Balik = require('./models/returns')
 
 mongoose.connect('mongodb://goRush:gsb2332065@cluster0-shard-00-00.rikek.mongodb.net:27017,cluster0-shard-00-01.rikek.mongodb.net:27017,cluster0-shard-00-02.rikek.mongodb.net:27017/inventory?ssl=true&replicaSet=atlas-tr9az4-shard-0&authSource=admin&retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -102,6 +104,12 @@ app.get('/footer', (req,res)=> {
     res.render('/product/_footer.ejs');
 });
 
+//POD Tab
+
+app.get('/pod', function(req,res){
+    res.render('pod/pod_index');
+});
+
 //Sales Tab
 app.get('/sale', async (req,res) =>{
     const sale = await SaleO.find().sort({ createdAt: 'desc'})
@@ -164,6 +172,71 @@ app.get('/sale', async (req,res) =>{
               res.redirect(`/sale/${sale.id}`)
           } catch(e)  {
           res.render(`/sale/${path}`, { sales: sale})
+          }
+      }
+  }
+
+//Returns
+
+app.get('/return', async (req,res) =>{
+    const balik = await BalikO.find().sort({ createdAt: 'desc'})
+      res.render('return/returns_index', { baliks: balik})
+  })
+  
+  app.get('./return/new', function(req,res){
+      res.render('return/returns_new');
+  });
+  
+  app.get('/return/new',(req,res)=>{
+      res.render('return/returns_new', {balik: new Balik() })
+  })
+  
+  app.get('/return/:id', async (req,res)=>{
+      const balik = await Balik.findById(req.params.id)
+      if (balik == null) res.redirect('/return')
+      res.render('return/returns_show', { balik: balik})
+  })
+  
+  app.get('/return/edit/:id', async (req,res)=>{
+      const balik = await Balik.findById(req.params.id)
+      if (balik == null) res.redirect('/return')
+      res.render('return/returns_edit', { balik: balik})
+  })
+  
+  app.post('/return/new', async (req, res, next)=>{
+      req.balik = new Balik()
+      next()
+  }, saveReturnAndRedirect('new'))
+  
+  
+  
+  app.put('/return/:id', async (req, res, next)=>{
+      req.balik = await Balik.findById(req.params.id)
+      next()
+  }, saveReturnAndRedirect('edit'))
+  
+  
+  app.delete('/return/:id', async (req,res)=>{
+      await Balik.findByIdAndDelete(req.params.id)
+      res.redirect('/return')
+  })
+  
+  
+  
+  
+  
+  function saveReturnAndRedirect(path)   {
+      return async (req,res)=> {
+          let balik = req.balik
+          balik.balikproduct = req.body.balikproduct
+          balik.balikreason = req.body.balikreason
+          balik.balikdatetogorush = req.body.balikdatetogorush
+          balik.balikreasondatetoorgin = req.body.balikdatetoorgin
+          try{
+              returns = await balik.save()
+              res.redirect(`/return/${balik.id}`)
+          } catch(e)  {
+          res.render(`/return/${path}`, { baliks: balik})
           }
       }
   }

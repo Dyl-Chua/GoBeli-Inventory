@@ -1,0 +1,24 @@
+<div class="form-group">
+    <label for="balikproduct">Return Product</label>
+    <textarea name="balikproduct"  id="balikproduct" placeholder="E.g. 34xxxxxxx" class="form-control"><%= balik.balikproduct %></textarea>
+    </div>
+
+<div class="form-group">
+<label for="balikreason">Return Reason</label>
+<textarea name="balikreason" placeholder="E.g. Clothes does not fit" id="balikreason" class="form-control"><%= balik.balikreason %></textarea>
+</div>
+
+<div class="form-group">
+<label for="balikdatetogorush">Return to Go Rush Date</label>
+<textarea name="balikdatetogorush" id="balikdatetogorush" class="form-control"><%= balik.balikdatetogorush %></textarea>
+</div>
+
+<div class="form-group">
+<label for="balikdatetoorgin">Return Date to Origin</label>
+<textarea name="balikdatetoorgin" id="balikdatetoorgin" class="form-control"><%= balik.balikdatetoorgin %></textarea>
+</div>
+
+
+<a href="/return" class="btn btn-secondary">Cancel</a>
+
+<button type="submit" class="btn btn-primary">Save</button>
