@@ -8,12 +8,12 @@
     <title>Inventory App</title>
 </head>
 <body>
-    <%- include('_header') %>
+    <%- include('_sales_header') %>
     <div class="container">
-     <h1 class="mb-4">Edit Product</h1>
+     <h1 class="mb-4">New Sale</h1>
 
-     <form action="/product/<%= product.id %>?_method=PUT" method="post">
-        <%- include('_form_fields') %>
+     <form action="/sale/new" method="post">
+        <%- include('_sales_form_fields') %>
 
      </form>
         </div>

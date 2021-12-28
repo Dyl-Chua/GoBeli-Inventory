@@ -10,14 +10,16 @@ const flash = require('express-flash')
 const session = require('express-session')
 const app = express()
 const multer = require('multer')
+const SaleO = require('./models/sale') 
 
 const Product = require('./models/product')
+const Sale = require('./models/sale')
 
 mongoose.connect('mongodb://goRush:gsb2332065@cluster0-shard-00-00.rikek.mongodb.net:27017,cluster0-shard-00-01.rikek.mongodb.net:27017,cluster0-shard-00-02.rikek.mongodb.net:27017/inventory?ssl=true&replicaSet=atlas-tr9az4-shard-0&authSource=admin&retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true});
 
-document.getElementById("add_more_fields").addEventListener("click", addItems);
-var additional_item = document.getElementById('additional_item');
-var countadd = 0;
+// document.getElementById("add_more_fields").addEventListener("click", addItems);
+// var additional_item = document.getElementById('additional_item');
+// var countadd = 0;
 
 app.set('view engine','ejs')
 
@@ -91,6 +93,81 @@ function saveProductAndRedirect(path)   {
     }
 }
 
+//Render Header and Footer
+app.get('/header', (req,res)=> {
+    res.render('/product/_header.ejs');
+});
 
+app.get('/footer', (req,res)=> {
+    res.render('/product/_footer.ejs');
+});
 
-app.listen(3000)
+//Sales Tab
+app.get('/sale', async (req,res) =>{
+    const sale = await SaleO.find().sort({ createdAt: 'desc'})
+      res.render('sale/sales_index', { sales: sale})
+  })
+  
+  app.get('./sale/new', function(req,res){
+      res.render('sale/sales_new');
+  });
+  
+  app.get('/sale/new',(req,res)=>{
+      res.render('sale/sales_new', {sale: new Sale() })
+  })
+  
+  app.get('/sale/:id', async (req,res)=>{
+      const sale = await Sale.findById(req.params.id)
+      if (sale == null) res.redirect('/sale')
+      res.render('sale/sales_show', { sale: sale})
+  })
+  
+  app.get('/sale/edit/:id', async (req,res)=>{
+      const sale = await Sale.findById(req.params.id)
+      if (sale == null) res.redirect('/sale')
+      res.render('sale/sales_edit', { sale: sale})
+  })
+  
+  app.post('/sale/new', async (req, res, next)=>{
+      req.sale = new Sale()
+      next()
+  }, saveSaleAndRedirect('new'))
+  
+  
+  
+  app.put('/sale/:id', async (req, res, next)=>{
+      req.sale = await Sale.findById(req.params.id)
+      next()
+  }, saveSaleAndRedirect('edit'))
+  
+  
+  app.delete('/sale/:id', async (req,res)=>{
+      await Sale.findByIdAndDelete(req.params.id)
+      res.redirect('/sale')
+  })
+  
+  
+  
+  
+  
+  function saveSaleAndRedirect(path)   {
+      return async (req,res)=> {
+          let sale = req.sale
+          sale.salesnumber = req.body.salesnumber
+          sale.salesdescription = req.body.salesdescription
+          sale.salesproduct = req.body.salesproduct
+          sale.salesquantity = req.body.salesquantity
+          sale.priceperunit = req.body.salespriceperunit
+          sale.salespayment = req.body.salespayment
+          try{
+              sales = await sale.save()
+              res.redirect(`/sale/${sale.id}`)
+          } catch(e)  {
+          res.render(`/sale/${path}`, { sales: sale})
+          }
+      }
+  }
+
+app.listen(process.env.PORT || 3000, function(){
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+});
