@@ -8,83 +8,19 @@
     <title>Inventory App</title>
 </head>
 <body>
-    <%- include('_header') %>
-    <!--View-->
-<!-- <div class="container">
-    <div class="card mt-4">
-        <div class="card-body">
-            <h4 class="card-title"><%= product.title %></h4>
-          <div class="card-text mb-2">  <strong>Description: </strong> <%= product.description %></div>
-            <div class="card-subtitle text-muted mb-2">
-               <strong>Created At:</strong> <%= product.createdAt.toLocaleDateString() %>  <br>
-               <strong> Quantity on Hand:</strong> <%= product.quantityonhand %> <br>
-               <strong> Restock Date and Quantity: </strong><%= product.restock %>   <br>  
-               <strong> Quantity Sold: </strong> <%= product.sold %> <br>
-                <strong>  ACK Number: </strong><%= product.payment %> <br>
-                    <strong>  Remarks: </strong><%= product.remarks %> 
-            </div> -->
+    <%- include('_sales_header') %>
+<div class="container">
+     <h1 class="mb-1"><%= sale.salesnumber %></h1>
+     <div class="text-muted mb-2"> <%= sale.salesquantity %> </div>
+     <div class="text-muted mb-2"> <%= sale.salesdescription %> </div>
+     <div class="text-muted mb-2"> <%= sale.salesproduct %> </div>
+     <div class="text-muted mb-2"> <%= sale.salespriceperunit %> </div>
+     <div class="text-muted mb-2"> <%= sale.salespayment %> </div>
+     <div class="text-muted mb-2"> <%= sale.remarks %> </div>
+     <a href="/sale" class="btn btn-secondary">All Sale</a>
+     <a href="/sale/edit/<%= sale.id %>" class="btn btn-info">Edit</a>
 
-<!--Table View-->>
-     <table id="tblData" class="table table-bordered">
-        
-         <tr>
-             <th>Title</th>
-             <th>Product Description</th>
-             <th>Created At</th>
-             <th>Quantity On Hand</th>
-             <th>Restock Date & Quantity</th>
-             <th>Quantity Sold</th>
-             <th>ACK Number</th>
-             <th>Remarks</th>
-         </tr>
- 
-         <tr>
-             <td><%= product.title %></td>
-             <td><%= product.description %></td>
-             <td> <%= product.createdAt.toLocaleDateString() %></td>
-             <td> <%= product.quantityonhand %> </td>
-             <td><%= product.restock %> </td>
-             <td><%= product.sold %></td>
-             <td><%= product.payment %></td>
-             <td><%= product.remarks %> </td>
-         </tr>
-         </table>
-
-         <script>
-             function exportTableToExcel(tableID, filename = ''){
-    var downloadLink;
-    var dataType = 'application/vnd.ms-excel';
-    var tableSelect = document.getElementById(tableID);
-    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
-    
-    // Specify file name
-    filename = filename?filename+'.xls':'excel_data.xls';
-    
-    // Create download link element
-    downloadLink = document.createElement("a");
-    
-    document.body.appendChild(downloadLink);
-    
-    if(navigator.msSaveOrOpenBlob){
-        var blob = new Blob(['\ufeff', tableHTML], {
-            type: dataType
-        });
-        navigator.msSaveOrOpenBlob( blob, filename);
-    }else{
-        // Create a link to the file
-        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
-    
-        // Setting the file name
-        downloadLink.download = filename;
-        
-        //triggering the function
-        downloadLink.click();
-    }
-}
-</script>
      
-<button onclick="exportTableToExcel('tblData')">Export Table Data To Excel File</button><br><br>
-<a href="/" class="btn btn-secondary">All Products</a><br><br>
-<a href="/product/edit/<%= product.id %>" class="btn btn-info">Edit</a>
+   
 </body>
 </html>

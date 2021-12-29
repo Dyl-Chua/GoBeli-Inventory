@@ -1,0 +1,54 @@
+<div class="form-group">
+    <label for="podnumber">POD Number</label>
+    <textarea name="podnumber"  id="podnumber" placeholder="E.g. POD-001" class="form-control"><%= pod.podnumber %></textarea>
+    </div>
+
+    <div class="form-group">
+    <label for="poddate">POD Date</label>
+    <textarea name="poddate"  id="poddate" class="form-control"><%= pod.poddate %></textarea>
+    </div>
+  
+    <div class="form-group">
+    <label for="podcreation">Created By</label>
+    <textarea name="podcreation"  id="podcreation" placeholder="E.g. Jessica Tin" class="form-control"><%= pod.podcreation %></textarea>
+    </div>
+    
+    <div class="form-group">
+    <label for="poddriver">Driver</label>
+    <textarea name="poddriver"  id="poddriver" placeholder="E.g. Hasbul" class="form-control"><%= pod.poddriver %></textarea>
+    </div>
+
+<div class="form-group">
+<label for="podtaskid">Task ID</label>
+<textarea name="podtaskid"  id="podtaskid" class="form-control"><%= pod.podtaskid %></textarea>
+</div>
+
+<div class="form-group">
+<label for="podcontactname">Contact Name</label>
+<textarea name="podcontactname"  id="podcontactname" class="form-control"><%= pod.podcontactname %></textarea>
+</div>
+
+<div class="form-group">
+<label for="podaddress">Address</label>
+<textarea name="podaddress" id="podaddress" class="form-control"><%= pod.podaddress %></textarea>
+</div>
+
+<div class="form-group">
+<label for="podphone">Phone</label>
+<textarea name="podphone" id="podphone" class="form-control"><%= pod.podphone %></textarea>
+</div>
+
+<div class="form-group">
+<label for="podprice">Price</label>
+<textarea name="podprice" id="podprice" class="form-control"><%= pod.podprice %></textarea>
+</div>
+
+<div class="form-group">
+<label for="podremarks">Remarks</label>
+<textarea name="podremarks" id="podremarks" class="form-control"><%= pod.podremarks %></textarea>
+</div>
+
+
+<a href="/pod" class="btn btn-secondary">Cancel</a>
+
+<button type="submit" class="btn btn-primary">Save</button>

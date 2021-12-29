@@ -34,7 +34,12 @@ Jack Parrot: 4pcs" class="form-control"><%= product.sold %></textarea>
 <textarea name="remarks" id="remarks" class="form-control"><%= product.remarks %></textarea>
 </div>
 
+<div class="form-group">
+<label for="valid">Valid</label>
+<textarea name="valid" id="valid" class="form-control"><%= product.valid %></textarea>
+</div>
+
 
 <a href="/" class="btn btn-secondary">Cancel</a>
 
-<button type="submit" class="btn btn-primary">Save</button>
+<button type="submit" onclick="createPDF()" id="button" class="btn btn-primary">Save</button>

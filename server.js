@@ -7,21 +7,23 @@ const BalikO = require('./models/returns')
 const methodOverride = require('method-override')
 const bcrypt = require('bcrypt')
 const passport = require('passport')
+const PodO = require('./models/pod')
 const flash = require('express-flash')
 const session = require('express-session')
 const app = express()
 const multer = require('multer')
 const SaleO = require('./models/sale') 
+const fs = require('fs')
+const fileUpload = require('express-fileupload')
 
 const Product = require('./models/product')
 const Sale = require('./models/sale')
 const Balik = require('./models/returns')
+const Pod = require('./models/pod')
 
 mongoose.connect('mongodb://goRush:gsb2332065@cluster0-shard-00-00.rikek.mongodb.net:27017,cluster0-shard-00-01.rikek.mongodb.net:27017,cluster0-shard-00-02.rikek.mongodb.net:27017/inventory?ssl=true&replicaSet=atlas-tr9az4-shard-0&authSource=admin&retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true});
 
-// document.getElementById("add_more_fields").addEventListener("click", addItems);
-// var additional_item = document.getElementById('additional_item');
-// var countadd = 0;
+
 
 app.set('view engine','ejs')
 
@@ -29,71 +31,73 @@ app.set('view engine','ejs')
 app.use(express.urlencoded({ extended: true}))
 app.use(methodOverride('_method'))
 
+
+//Product
 app.get('/', async (req,res) =>{
-  const product = await Producto.find().sort({ createdAt: 'desc'})
-    res.render('product/index', { products: product})
-})
-
-app.get('/product/new', function(req,res){
-    res.render('product/new');
-});
-
-app.get('/new',(req,res)=>{
-    res.render('product/new', {product: new Product() })
-})
-
-app.get('/product/:id', async (req,res)=>{
-    const product = await Product.findById(req.params.id)
-    if (product == null) res.redirect('/')
-    res.render('product/show', { product: product})
-})
-
-app.get('/product/edit/:id', async (req,res)=>{
-    const product = await Product.findById(req.params.id)
-    if (product == null) res.redirect('/')
-    res.render('product/edit', { product: product})
-})
-
-app.post('/product/new', async (req, res, next)=>{
-    req.product = new Product()
-    next()
-}, saveProductAndRedirect('new'))
-
-
-
-app.put('/product/:id', async (req, res, next)=>{
-    req.product = await Product.findById(req.params.id)
-    next()
-}, saveProductAndRedirect('edit'))
-
-
-app.delete('/product/:id', async (req,res)=>{
-    await Product.findByIdAndDelete(req.params.id)
-    res.redirect('/')
-})
-
-
-
-
-
-function saveProductAndRedirect(path)   {
-    return async (req,res) => {
-        let product = req.product
-            product.title = req.body.title
-            product.description = req.body.description
-            product.sold = req.body.sold
-            product.quantityonhand = req.body.quantityonhand
-            product.payment = req.body.payment
-            product.remarks = req.body.remarks
-            product.restock = req.body.restock
-        try{
-        product = await product.save()
-        res.redirect(`/product/${product.id}`)
-    } catch(e)  {
-    res.render(`/product/${path}`, { product: product})
-    }
-    }
-}
+    const product = await Producto.find().sort({ createdAt: 'desc'})
+      res.render('product/index', { products: product})
+  })
+  
+  app.get('./product/new', function(req,res){
+      res.render('product/new');
+  });
+  
+  app.get('/product/new',(req,res)=>{
+      res.render('product/new', {product: new Product() })
+  })
+  
+  app.get('/product/:id', async (req,res)=>{
+      const product = await Product.findById(req.params.id)
+      if (product == null) res.redirect('/')
+      res.render('product/show', { product: product})
+  })
+  
+  app.get('/product/edit/:id', async (req,res)=>{
+      const product = await Product.findById(req.params.id)
+      if (product == null) res.redirect('/')
+      res.render('product/edit', { product: product})
+  })
+  
+  app.post('/product/new', async (req, res, next)=>{
+      req.product = new Product()
+      next()
+  }, saveProductAndRedirect('new'))
+  
+  
+  
+  app.put('/product/:id', async (req, res, next)=>{
+      req.product = await Product.findById(req.params.id)
+      next()
+  }, saveProductAndRedirect('edit'))
+  
+  
+  app.delete('/product/:id', async (req,res)=>{
+      await Product.findByIdAndDelete(req.params.id)
+      res.redirect('/')
+  })
+  
+  
+  
+  
+  
+  function saveProductAndRedirect(path)   {
+      return async (req,res) => {
+          let product = req.product
+              product.title = req.body.title
+              product.description = req.body.description
+              product.sold = req.body.sold
+              product.quantityonhand = req.body.quantityonhand
+              product.payment = req.body.payment
+              product.remarks = req.body.remarks
+              product.restock = req.body.restock
+          try{
+          product = await product.save()
+          res.redirect(`/product/${product.id}`)
+      } catch(e)  {
+      res.render(`/product/${path}`, { product: product})
+      }
+      }
+  }
 
 //Render Header and Footer
 app.get('/header', (req,res)=> {
@@ -104,11 +108,8 @@ app.get('/footer', (req,res)=> {
     res.render('/product/_footer.ejs');
 });
 
-//POD Tab
 
-app.get('/pod', function(req,res){
-    res.render('pod/pod_index');
-});
+
 
 //Sales Tab
 app.get('/sale', async (req,res) =>{
@@ -240,6 +241,76 @@ app.get('/return', async (req,res) =>{
           }
       }
   }
+
+//POD
+app.get('/pod', async (req,res) =>{
+    const pod = await PodO.find().sort({ createdAt: 'desc'})
+      res.render('pod/pod_index', { pods: pod})
+  })
+
+app.get('./pod/new', function(req,res){
+    res.render('pod/pod_new');
+});
+
+app.get('/pod/new',(req,res)=>{
+    res.render('pod/pod_new', {pod: new Pod() })
+})
+
+app.get('/pod/:id', async (req,res)=>{
+    const pod = await Pod.findById(req.params.id)
+    if (pod == null) res.redirect('/pod')
+    res.render('pod/pod_show', { pod: pod})
+})
+
+app.get('/return/edit/:id', async (req,res)=>{
+    const pod = await Pod.findById(req.params.id)
+    if (pod == null) res.redirect('/pod')
+    res.render('pod/pod_edit', { pod: pod})
+})
+
+app.post('/pod/new', async (req, res, next)=>{
+    req.pod = new Pod()
+    next()
+}, savePodAndRedirect('new'))
+
+
+
+app.put('/pod/:id', async (req, res, next)=>{
+    req.pod = await Pod.findById(req.params.id)
+    next()
+}, savePodAndRedirect('edit'))
+
+
+app.delete('/pod/:id', async (req,res)=>{
+    await Pod.findByIdAndDelete(req.params.id)
+    res.redirect('/pod')
+})
+
+
+
+
+
+function savePodAndRedirect(path)   {
+    return async (req,res)=> {
+        let pod = req.pod
+        pod.podnumber = req.body.podnumber
+        pod.poddate = req.body.poddate
+        pod.podcreation = req.body.podcreation
+        pod.podtaskid = req.body.podtaskid
+        pod.podaddress = req.body.podaddress
+        pod.podprice = req.body.podprice
+        pod.poddriver = req.body.poddriver
+        pod.podcontactname = req.body.podcontactname
+        try{
+            returns = await pod.save()
+            res.redirect(`/pod/${pod.id}`)
+        } catch(e)  {
+        res.render(`/pod/${path}`, { pods: pod})
+        }
+    }
+}
+
+
 
 app.listen(process.env.PORT || 3000, function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
