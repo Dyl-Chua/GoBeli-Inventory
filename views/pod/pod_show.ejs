@@ -12,11 +12,8 @@
   
      <table id="podtable" class="table table-bordered">
         <tbody>
-            <center>
-            <h1>POD Number: <%= pod.podnumber %></h1>
-            <h2>Driver: <%= pod.poddriver %></h2>
-        </center>
          <tr>
+
              <th>Item with Me</th>
              <th>Task ID</th>
              <th>Contact Name</th>
@@ -40,6 +37,8 @@
              <td><%= pod.podremarks %></td>
          </tr>
          <caption>Created By: <%= pod.podcreation %></caption>
+         <caption>POD Number: <%= pod.podnumber %></caption>
+         <caption>Driver: <%= pod.poddriver %></caption>
         </tbody>
          </table>
 
@@ -47,7 +46,7 @@
 
 <input type="button" id="btnExport" value="Export" />
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.4/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
  
  
@@ -56,12 +55,17 @@
         html2canvas($('#podtable')[0], {
             onrendered: function (canvas) {
                 var data = canvas.toDataURL();
+                
                 var docDefinition = {
+                    pageOrientation: 'landscape',
                     content: [{
                         image: data,
-                        width: 500
+                        width: 750,
+                        pageSize: 'A4',
+                       
                     }]
                 };
+                
                 pdfMake.createPdf(docDefinition).download("output.pdf");
             }
         });

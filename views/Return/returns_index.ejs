@@ -17,7 +17,8 @@
         <% baliks.forEach(balik =>  { %> 
             <div class="card mt-4">
                 <div class="card-body">
-                    <h4 class="card-title"><%= balik.balikproduct %></h4>
+                    <h4 class="card-title"><%= balik._id %></h4>
+             
                     <div class="card-text mb-2">  <strong>Reason: </strong> <%= balik.balikreason %></div>
                       <div class="card-subtitle text-muted mb-2">
                          <strong> Date to Go Rush:</strong> <%= balik.balikdatetogorush %> <br>

@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 
 const saleSchema = new mongoose.Schema({
+    _id:{
+        required: false,
+        type: String
+    },
     salesnumber:{
         required: false,
         type: String

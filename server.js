@@ -83,6 +83,7 @@ app.get('/', async (req,res) =>{
   function saveProductAndRedirect(path)   {
       return async (req,res) => {
           let product = req.product
+              product._id = req.body._id
               product.title = req.body.title
               product.description = req.body.description
               product.sold = req.body.sold
@@ -162,6 +163,7 @@ app.get('/sale', async (req,res) =>{
   function saveSaleAndRedirect(path)   {
       return async (req,res)=> {
           let sale = req.sale
+          sale._id = req.body._id
           sale.salesnumber = req.body.salesnumber
           sale.salesdescription = req.body.salesdescription
           sale.salesproduct = req.body.salesproduct
@@ -229,6 +231,7 @@ app.get('/return', async (req,res) =>{
   function saveReturnAndRedirect(path)   {
       return async (req,res)=> {
           let balik = req.balik
+          balik._id = req.body._id
           balik.balikproduct = req.body.balikproduct
           balik.balikreason = req.body.balikreason
           balik.balikdatetogorush = req.body.balikdatetogorush
@@ -293,6 +296,7 @@ app.delete('/pod/:id', async (req,res)=>{
 function savePodAndRedirect(path)   {
     return async (req,res)=> {
         let pod = req.pod
+        pod._id = req.body._id
         pod.podnumber = req.body.podnumber
         pod.poddate = req.body.poddate
         pod.podcreation = req.body.podcreation
@@ -301,6 +305,7 @@ function savePodAndRedirect(path)   {
         pod.podprice = req.body.podprice
         pod.poddriver = req.body.poddriver
         pod.podcontactname = req.body.podcontactname
+        pod.podarea = req.body.podarea
         try{
             returns = await pod.save()
             res.redirect(`/pod/${pod.id}`)
@@ -310,7 +315,11 @@ function savePodAndRedirect(path)   {
     }
 }
 
+//Test
 
+app.get('/test', (req,res)=>{
+    res.render('sale/test');
+})
 
 app.listen(process.env.PORT || 3000, function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);

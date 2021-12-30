@@ -24,7 +24,9 @@
         <% pods.forEach(pod =>  { %> 
             <div class="card mt-4">
                 <div class="card-body">
-                    <h4 class="card-title"><%= pod.podnumber %></h4>
+                    <h4 class="card-title"><%= pod._id %></h4>
+                
+                    <h3><%= pod.podarea %></h3>
                     <div class="card-text mb-2">  <strong>Date: </strong> <%= pod.poddate%></div>
                       <div class="card-subtitle text-muted mb-2">
                          <strong> Created By:</strong> <%= pod.podcreation %> <br>

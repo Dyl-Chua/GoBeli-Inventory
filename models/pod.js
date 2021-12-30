@@ -1,7 +1,16 @@
 const mongoose = require('mongoose')
 
 const podSchema = new mongoose.Schema({
+    _id:{
+        required: false,
+        type: String
+        
+    },
     podnumber:{
+        required: false,
+        type: String
+    },
+    podarea: {
         required: false,
         type: String
     },

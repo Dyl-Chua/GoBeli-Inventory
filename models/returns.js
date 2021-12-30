@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 
 const balikSchema = new mongoose.Schema({
+    _id:{
+        required: false,
+        type: String
+    },
     balikproduct:{
         required: false,
         type: String

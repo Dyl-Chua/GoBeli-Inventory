@@ -1,35 +1,34 @@
-<div class="form-group">
-    <label for="salesnumber">Sales Number</label>
-    <textarea name="salesnumber"  id="salesnumber" placeholder="E.g. SO-001" class="form-control"><%= sale.salesnumber %></textarea>
-    </div>
+    <div class="form-group">
+        <label for="_id"><p style="color:black"> Number</p></label>
+        <textarea name="_id"  id="_id" class="form-control"><%= sale._id %></textarea>
+        </div>
 
 <div class="form-group">
-<label for="salesdescription">Sales Description</label>
+<label for="salesdescription"><p style="color:black">Sales Description</p></label>
 <textarea name="salesdescription" placeholder="Sales Description" id="salesdescription" class="form-control"><%= sale.salesdescription %></textarea>
 </div>
 
-<div class="form-group">
-<label for="salesproduct">Product</label>
-<textarea name="salesproduct" placeholder="KF Mask" id="salesproduct" class="form-control"><%= sale.salesproduct %></textarea>
-</div>
+<div class="form-group" id="product">
+<label for="salesproduct"><p style="color:black">Product</p></label>
+<textarea name="product" placeholder="KF Mask" id="salesproduct" class="form-control"><%= sale.salesproduct %></textarea>
+
 
 <div class="form-group">
-<label for="salesquantity">Quantity</label>
 <textarea name="salesquantity" id="salesquantity" placeholder="E.g. 3 pcs" class="form-control"><%= sale.salesquantity %></textarea>
 </div>
 
 <div class="form-group">
-<label for="salespriceperunit">Price / Unit</label>
+<label for="salespriceperunit"><p style="color:black">Price / Unit</p></label>
 <textarea name="salespriceperunit" id="salespriceperunit" placeholder="E.g. $3" class="form-control"><%= sale.salespriceperunit %></textarea>
 </div>
 
 <div class="form-group">
-<label for="salespayment">ACK</label>
+<label for="salespayment"><p style="color:black">ACK</p></label>
 <textarea name="salespayment" placeholder="E.g. Laila Khalid: BIBD 0968962 or Cash" id="salespayment" class="form-control"><%= sale.salespayment %></textarea>
 </div>
 
 <div class="form-group">
-<label for="salesremarks">Remarks</label>
+<label for="salesremarks"><p style="color:black">Remarks</p></label>
 <textarea name="salesremarks" id="salesremarks" class="form-control"><%= sale.salesremarks %></textarea>
 </div>
 
@@ -37,3 +36,92 @@
 <a href="/sale" class="btn btn-secondary">Cancel</a>
 
 <button type="submit" class="btn btn-primary">Save</button>
+
+<div class="controls">
+    <a href="#" id="add_more_fields"><i class="fa fa-plus"></i>Add Item</a>
+    <a href="#" id="remove_fields"><i class="fa fa-plus"></i>Remove Item</a>
+</div>
+
+<script>
+    var product = document.getElementById('product');
+var add_more_fields = document.getElementById('add_more_fields');
+var remove_fields = document.getElementById('remove_fields');
+var item_field = document.getElementById('item_field');
+
+
+add_more_fields.onclick = function(){
+    var newField = document.createElement('input');
+    newField.setAttribute('type','text');
+    newField.setAttribute('name','product[]');
+    newField.setAttribute('class','product');
+    newField.setAttribute('size',50);
+    newField.setAttribute('placeholder','New Product');
+    product.appendChild(newField);
+}
+
+
+
+remove_fields.onclick = function(){
+    var input_tags = product.getElementsByTagName('input');
+    if(input_tags.length > 2) {
+        product.removeChild(input_tags[(input_tags.length) - 1]);
+    }
+}
+</script>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Jost:wght@100;300;400;700&display=swap');
+
+body {
+    background-color: #ffffff;
+    font-family: 'Jost',sans-serif;
+    color: #fff;
+}
+
+.wrapper {
+    width: 400px;
+    margin: 40px auto;
+    padding: 10px;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0px 10px 40px 0px rgba(47,47,47,.1);
+}
+
+input[type="text"]{
+    padding: 10px;
+    margin: 10px auto;
+    display: block;
+    border-radius: 5px;
+    border: 1px solid lightgrey;
+    background: none;
+    width: 100%;
+    color: black;
+}
+
+input[type="text"]:focus {
+    outline: none;
+}
+
+.controls {
+    width: 294px;
+    margin: 15px auto;
+}
+
+#remove_fields {
+    float: right;
+}
+.controls a i.fa-minus {
+    margin-right: 5px;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+h1 {
+    text-align: center;
+    font-size: 48px;
+    color: #232c3d;
+}
+</style>

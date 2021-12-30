@@ -1,6 +1,12 @@
 const mongoose = require('mongoose')
+const { StringDecoder } = require('string_decoder')
 
 const productSchema = new mongoose.Schema({
+    _id:{
+        required: false,
+        type: String
+    },
+    
     title:{
         required: false,
         type: String
