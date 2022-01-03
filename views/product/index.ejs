@@ -22,10 +22,11 @@
         <h1 class="mb-4">INVENTORY</h1>
         <a href="/product/new" class="btn btn-success">New Products</a>
 
+
         <% products.forEach(product =>  { %> 
             <div class="card mt-4">
                 <div class="card-body">
-                    <h4 class="card-title"> <%= product._id %></h4>
+                    <h4 class="card-title"> <%= product._id %></h4>    <input type="checkbox">
                   <div class="card-text mb-2">  <strong>Description: </strong> <%= product.description %></div>
                     <div class="card-subtitle text-muted mb-2">
                        <strong>Created At:</strong> <%= product.createdAt.toLocaleDateString() %>  <br>
@@ -34,8 +35,9 @@
                        <strong> Quantity Sold: </strong> <%= product.sold %> <br>
                         <strong>  ACK Number: </strong><%= product.payment %> <br>
                             <strong>  Remarks: </strong><%= product.remarks %> <br>
-                            <strong> Valid:</strong><%= product.valid %>
+                 
                     </div>
+
 
                     <a href="product/<%= product.id %>" class="btn btn-primary">View</a>
                     <a href="/product/edit/<%= product.id %>" class="btn btn-info">Edit</a>
@@ -47,6 +49,8 @@
         <% }) %>
         </div>
 
-     
+
+          </form>
+  
 </body>
 </html>

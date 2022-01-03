@@ -6,7 +6,7 @@ const Producto = require('./models/product')
 const BalikO = require('./models/returns')
 const methodOverride = require('method-override')
 const bcrypt = require('bcrypt')
-const passport = require('passport')
+//const passport = require('passport')
 const PodO = require('./models/pod')
 const flash = require('express-flash')
 const session = require('express-session')
@@ -15,11 +15,16 @@ const multer = require('multer')
 const SaleO = require('./models/sale') 
 const fs = require('fs')
 const fileUpload = require('express-fileupload')
+const User = require('./models/user')
 
 const Product = require('./models/product')
 const Sale = require('./models/sale')
 const Balik = require('./models/returns')
 const Pod = require('./models/pod')
+
+
+
+const user = []
 
 mongoose.connect('mongodb://goRush:gsb2332065@cluster0-shard-00-00.rikek.mongodb.net:27017,cluster0-shard-00-01.rikek.mongodb.net:27017,cluster0-shard-00-02.rikek.mongodb.net:27017/inventory?ssl=true&replicaSet=atlas-tr9az4-shard-0&authSource=admin&retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -32,11 +37,63 @@ app.use(express.urlencoded({ extended: true}))
 app.use(methodOverride('_method'))
 
 
+//Login & Registration
+
+  
+app.get('/register', (req, res) => {
+    res.render('register');
+})
+
+app.get('/logout', (req,res) => {
+    res.render('login')
+})
+
+app.get('/login', (req, res) => {
+    res.render('login');
+})
+
+app.post("/login", (req,res) =>{
+    res.redirect("/")
+    User.authenticate(req.body.email, req.body.password, (error, user) =>{
+        if(!error || user){
+            res.render("login")
+            currentUser = user;  
+        }else {
+            res.render('error')
+        }
+    })
+})
+
+app.post('/register', (req, res) => {  
+    let user = new User({
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+    });
+    res.redirect("/login")
+    user.save(function (err) {
+    if (err) {
+    	if (err.name === "MongoError" && err.code === 11000) {
+    		res.render('error', {
+    			error_code: '11000',
+                head: 'Invalid_User_MongoError-11000',
+                message: 'Please logout and try again. If the error still persist, please contact our customer support +6732332065 via WhatsApp',
+    			href: "signup"
+    		});
+    	}
+    }
+    console.log(req.body.password)
+    });
+})
+
+
 //Product
 app.get('/', async (req,res) =>{
     const product = await Producto.find().sort({ createdAt: 'desc'})
       res.render('product/index', { products: product})
   })
+
+
   
   app.get('./product/new', function(req,res){
       res.render('product/new');

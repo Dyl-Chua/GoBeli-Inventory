@@ -24,7 +24,7 @@
         <% sales.forEach(sale =>  { %> 
             <div class="card mt-4">
                 <div class="card-body">
-                    <h4 class="card-title"><%= sale._id %></h4>
+                    <h4 class="card-title"><%= sale._id %></h4>   <input type="checkbox">
     
                     <div class="card-text mb-2">  <strong>Description: </strong> <%= sale.salesdescription %></div>
                       <div class="card-subtitle text-muted mb-2">
@@ -33,12 +33,13 @@
                           <strong>  ACK Number: </strong><%= sale.salespayment %> <br>
                               <strong>  Remarks: </strong><%= sale.salesremarks %> 
                       </div>
+                      </div>
                       <a href="sale/<%= sale.id %>" class="btn btn-primary">View</a>
                       <a href="/sale/edit/<%= sale.id %>" class="btn btn-info">Edit</a>
                       <form action="/sale/<%= sale.id %>?_method=DELETE" method="post" class="d-inline">
                           <button type="submit" class="btn btn-danger">Delete</button>
                       </form>
-                  </div>
+        
               </div>
           <% }) %>
         </div>
