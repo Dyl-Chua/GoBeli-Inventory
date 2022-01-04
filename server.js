@@ -69,6 +69,7 @@ app.post('/register', (req, res) => {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
+        position: req.body.position
     });
     res.redirect("/login")
     user.save(function (err) {
@@ -372,7 +373,17 @@ function savePodAndRedirect(path)   {
     }
 }
 
-//Test
+//User view
+
+app.get('/user/:id', async (req, res) => {
+    const user = await User.findById(req.params.id)
+    if (user == null) res.redirect('/')
+    res.render('userprofile', { user: user })
+  })
+
+
+
+//
 
 app.get('/test', (req,res)=>{
     res.render('sale/test');
