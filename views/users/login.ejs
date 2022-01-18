@@ -1,16 +1,30 @@
-<h1>Login</h1>
+<div class="header">
+<h1>Login Go Rush Warehouse</h1>
+</div>
 <% if (messages.error) { %>
   <%= messages.error %>
 <% } %>
 <form action="/login" method="POST">
-  <div>
+  <div class="form-group">
     <label for="email">Email</label>
-    <input type="email" id="email" name="email" required>
-  </div>
-  <div>
+    <input type="email" id="email" name="email" required><br><br>
+
     <label for="password">Password</label>
-    <input type="password" id="password" name="password" required>
-  </div>
-  <button type="submit">Login</button>
+    <input type="password" id="password" name="password" required><br><br>
+  </div><br>
+  <center><button type="submit">Login</button></center>
 </form>
-<a href="/register">Register</a>
+<center><a href="/register">Register</a></center>
+<style>
+
+.header{
+  text-align: center;
+}
+
+.form-group{
+  text-align: center;
+
+}
+
+
+</style>
