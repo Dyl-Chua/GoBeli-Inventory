@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 const UserSchema  = new mongoose.Schema({
+    _id: {
+        type: String,
+    },
     name: {
         type: String,
         uppercase: true,

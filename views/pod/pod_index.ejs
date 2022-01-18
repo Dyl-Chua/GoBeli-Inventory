@@ -20,11 +20,12 @@
     <div class="container">
         <h1 class="mb-4">POD</h1>
         <a href="/pod/new" class="btn btn-success">New Pod</a>
+        <a href="/podv2" class="btn btn-success">New Pod V2</a>
 
         <% pods.forEach(pod =>  { %> 
             <div class="card mt-4">
                 <div class="card-body">
-                    <h4 class="card-title"><%= pod._id %></h4>    <input type="checkbox">
+                    <h4 class="card-title"><%= pod._id %></h4>  
                 
                     <h3><%= pod.podarea %></h3>
                     <div class="card-text mb-2">  <strong>Date: </strong> <%= pod.poddate%></div>

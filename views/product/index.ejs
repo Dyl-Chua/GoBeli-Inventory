@@ -26,15 +26,34 @@
         <% products.forEach(product =>  { %> 
             <div class="card mt-4">
                 <div class="card-body">
-                    <h4 class="card-title"> <%= product._id %></h4>    <input type="checkbox">
+                    <h4 class="card-title"> <%= product._id %></h4>   
                   <div class="card-text mb-2">  <strong>Description: </strong> <%= product.description %></div>
                     <div class="card-subtitle text-muted mb-2">
                        <strong>Created At:</strong> <%= product.createdAt.toLocaleDateString() %>  <br>
-                       <strong> Quantity on Hand:</strong> <%= product.quantityonhand %> <br>
-                       <strong> Restock Date and Quantity: </strong><%= product.restock %>   <br>  
-                       <strong> Quantity Sold: </strong> <%= product.sold %> <br>
-                        <strong>  ACK Number: </strong><%= product.payment %> <br>
-                            <strong>  Remarks: </strong><%= product.remarks %> <br>
+       <div class="card-text">
+           <strong>TRACKING:</strong><BR>
+        <%= product.trackingNumber %><br>
+        <%= product.trackingNumber2 %><br>
+        <%= product.trackingNumber3 %><br>
+        <%= product.trackingNumber4 %><br>
+        <%= product.trackingNumber5 %><br>
+        <%= product.trackingNumber6 %><br>
+        <%= product.trackingNumber7 %><br>
+        <%= product.trackingNumber8 %><br>
+        <%= product.trackingNumber9 %><br>
+        <%= product.trackingNumber10 %><br>
+        <%= product.trackingNumber11 %><br>
+        <%= product.trackingNumber12 %><br>
+        <%= product.trackingNumber13 %><br>
+        <%= product.trackingNumber14 %><br>
+        <%= product.trackingNumber15 %><br>
+        <%= product.trackingNumber16 %><br>
+        <%= product.trackingNumber17 %><br>
+        <%= product.trackingNumber18 %><br>
+        <%= product.trackingNumber19 %><br>
+        <%= product.trackingNumber20 %>
+
+       </div>
                  
                     </div>
 

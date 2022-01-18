@@ -13,27 +13,38 @@
      <table id="producttable" class="table table-bordered">
         
          <tr>
-             <th>Title</th>
-             <th>Product Description</th>
-             <th>Created At</th>
-             <th>Quantity On Hand</th>
-             <th>Restock Date & Quantity</th>
-             <th>Quantity Sold</th>
-             <th>ACK Number</th>
-             <th>Remarks</th>
-             <th>Validity</th>
+             <th>Bin</th>
+                <th>Date In</th>
+             <th>Tracking Number</th>
+
+      
          </tr>
  
          <tr>
-             <td><%= product.title %></td>
-             <td><%= product.description %></td>
-             <td> <%= product.createdAt.toLocaleDateString() %></td>
-             <td> <%= product.quantityonhand %> </td>
-             <td><%= product.restock %> </td>
-             <td><%= product.sold %></td>
-             <td><%= product.payment %></td>
-             <td><%= product.remarks %> </td>
-             <td><%= product.valid %></td>
+             <td><%= product._id %></td>
+             <td><%= product.restock %></td>
+             <td><%= product.trackingNumber %><br>
+          <%= product.trackingNumber2 %><br>
+         <%= product.trackingNumber3 %><br>
+        <%= product.trackingNumber4 %><br>
+          <%= product.trackingNumber5 %><br>
+        <%= product.trackingNumber6 %><br>
+           <%= product.trackingNumber7 %><br>
+           <%= product.trackingNumber8 %><br>
+           <%= product.trackingNumber9 %><br>
+          <%= product.trackingNumber10 %><br>
+           <%= product.trackingNumber11 %><br>
+           <%= product.trackingNumber12 %><br>
+            <%= product.trackingNumber13 %><br>
+          <%= product.trackingNumber14 %><br>
+          <%= product.trackingNumber15 %><br>
+             <%= product.trackingNumber16 %><br>
+            <%= product.trackingNumber17 %><br>
+            <%= product.trackingNumber18 %><br>
+           <%= product.trackingNumber19 %><br>
+            <%= product.trackingNumber20 %><br></td>
+
+
          </tr>
          </table>
 
@@ -63,7 +74,7 @@
 </script>
 
     
-<a href="/" class="btn btn-secondary">All Products</a><br><br>
+<a href="/product" class="btn btn-secondary">All Products</a><br><br>
 <a href="/product/edit/<%= product.id %>" class="btn btn-info">Edit</a>
 </body>
 </html>

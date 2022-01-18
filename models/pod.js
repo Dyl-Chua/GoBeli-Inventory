@@ -29,10 +29,87 @@ const podSchema = new mongoose.Schema({
         type: String
     },
 
-    podtaskid: {
+    trackingNumber: {
         required: false,
         type: String
     },
+    trackingNumber2: {
+        required: false,
+        type: String
+    },
+    trackingNumber3: {
+        required: false,
+        type: String
+    },
+    trackingNumber4: {
+        required: false,
+        type: String
+    },
+    trackingNumber5: {
+        required: false,
+        type: String
+    },
+    trackingNumber6: {
+        required: false,
+        type: String
+    },
+    trackingNumber7: {
+        required: false,
+        type: String
+    },
+    trackingNumber8: {
+        required: false,
+        type: String
+    },
+    trackingNumber9: {
+        required: false,
+        type: String
+    },
+    trackingNumber10: {
+        required: false,
+        type: String
+    },
+    trackingNumber11: {
+        required: false,
+        type: String
+    },
+    trackingNumber12: {
+        required: false,
+        type: String
+    },
+    trackingNumber13: {
+        required: false,
+        type: String
+    },
+    trackingNumber14: {
+        required: false,
+        type: String
+    },
+    trackingNumber15: {
+        required: false,
+        type: String
+    },
+    trackingNumber16: {
+        required: false,
+        type: String
+    },
+    trackingNumber17: {
+        required: false,
+        type: String
+    },
+    trackingNumber18: {
+        required: false,
+        type: String
+    },
+    trackingNumber19: {
+        required: false,
+        type: String
+    },
+    trackingNumber20: {
+        required: false,
+        type: String
+    },
+
 
     podaddress: {
         required: false,

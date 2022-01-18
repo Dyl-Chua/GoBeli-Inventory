@@ -10,7 +10,10 @@
   
     <div class="form-group">
     <label for="podcreation">Created By</label>
-    <textarea name="podcreation"  id="podcreation" placeholder="E.g. Jessica Tin" class="form-control"><%= pod.podcreation %></textarea>
+    <select name="podcreation"  id="podcreation" placeholder="E.g. Jessica Tin" class="form-control">
+
+        <option>Dylan</option>
+    </select>
     </div>
     
     <div class="form-group">
@@ -25,7 +28,52 @@
 
 <div class="form-group">
 <label for="podtaskid">Task ID</label>
-<textarea name="podtaskid"  id="podtaskid" class="form-control"><%= pod.podtaskid %></textarea>
+<input type="text" name="podtaskid"  onkeyup="jump001(this, 'podtaskid2')"  maxlength="9" id="podtaskid" class="form-control"><%= pod.podtaskid %></input>
+</div>
+
+<div class="form-group">
+<label for="podtaskid2">Task ID 2</label>
+<input type="text" name="podtaskid2" onkeyup="jump001(this, 'podtaskid3')"   maxlength="9" id="podtaskid2" class="form-control"><%= pod.podtaskid2 %></input>
+</div>
+
+<div class="form-group">
+<label for="podtaskid3">Task ID 3</label>
+<input type="text" name="podtaskid3" onkeyup="jump001(this, 'podtaskid4')"  maxlength="9" id="podtaskid3" class="form-control"><%= pod.podtaskid3 %></input>
+</div>
+
+<div class="form-group">
+<label for="podtaskid4">Task ID 4</label>
+<input type="text" name="podtaskid4" onkeyup="jump001(this, 'podtaskid5')"   maxlength="9" id="podtaskid4" class="form-control"><%= pod.podtaskid4 %></input>
+</div>
+
+<div class="form-group">
+<label for="podtaskid5">Task ID 5</label>
+<input type="text" name="podtaskid5" onkeyup="jump001(this, 'podtaskid6')"  maxlength="9" id="podtaskid5" class="form-control"><%= pod.podtaskid5 %></input>
+</div>
+
+<div class="form-group">
+<label for="podtaskid6">Task ID 6</label>
+<input type="text" name="podtaskid6" onkeyup="jump001(this, 'podtaskid7')"  maxlength="9" id="podtaskid6" class="form-control"><%= pod.podtaskid6 %></input>
+</div>
+
+<div class="form-group">
+<label for="podtaskid7">Task ID 7</label>
+<input type="text" name="podtaskid7" onkeyup="jump001(this, 'podtaskid8')"  maxlength="9" id="podtaskid7" class="form-control"><%= pod.podtaskid7 %></input>
+</div>
+
+<div class="form-group">
+<label for="podtaskid8">Task ID 8</label>
+<input type="text" name="podtaskid8" onkeyup="jump001(this, 'podtaskid9')"  maxlength="9" id="podtaskid8" class="form-control"><%= pod.podtaskid8 %></input>
+</div>
+
+<div class="form-group">
+<label for="podtaskid9">Task ID 9</label>
+<input type="text" name="podtaskid9" onkeyup="jump001(this, 'podtaskid10')"  maxlength="9" id="podtaskid9" class="form-control"><%= pod.podtaskid9 %></input>
+</div>
+
+<div class="form-group">
+<label for="podtaskid10">Task ID 10</label>
+<input type="text" name="podtaskid10" onkeyup="jump001(this, 'podtaskid')"  maxlength="9" id="podtaskid10" class="form-control"><%= pod.podtaskid10 %></input>
 </div>
 
 <div class="form-group">
@@ -57,3 +105,25 @@
 <a href="/pod" class="btn btn-secondary">Cancel</a>
 
 <button type="submit" class="btn btn-primary">Save</button>
+
+
+<script>
+window.onload = function()  {
+    podtaskid.value = "";
+    podtaskid2.value = "";
+    podtaskid3.value = "";
+    podtaskid4.value = "";
+    podtaskid5.value = "";
+    podtaskid6.value = "";
+    podtaskid7.value = "";
+    podtaskid8.value = "";
+    podtaskid9.value = "";
+    podtaskid10.value = "";
+}
+
+    function jump001(field, autoMove) {
+        if (field.value.length >= field.maxLength) {
+            document.getElementById(autoMove).focus();
+        }
+    }
+</script>

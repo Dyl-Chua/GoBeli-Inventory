@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config()
+  }
+
 const express = require('express')
 // const router = require('./routes/inventory')
 const mongoose = require('mongoose')
@@ -6,7 +10,7 @@ const Producto = require('./models/product')
 const BalikO = require('./models/returns')
 const methodOverride = require('method-override')
 const bcrypt = require('bcrypt')
-//const passport = require('passport')
+const passport = require('passport')
 const PodO = require('./models/pod')
 const flash = require('express-flash')
 const session = require('express-session')
@@ -40,56 +44,87 @@ app.use(methodOverride('_method'))
 //Login & Registration
 
   
-app.get('/register', (req, res) => {
-    res.render('register');
+const initializePassport = require('./passport-config')
+initializePassport(
+  passport,
+  email => users.find(user => user.email === email),
+  id => users.find(user => user.id === id)
+)
+
+const users = []
+
+app.set('view-engine', 'ejs')
+app.use(express.urlencoded({ extended: false }))
+app.use(flash())
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(methodOverride('_method'))
+
+app.get('/user', checkAuthenticated, (req, res) => {
+  res.render('users/userprofile', { name: req.user.name })
 })
 
-app.get('/logout', (req,res) => {
-    res.render('login')
+app.get('/login', checkNotAuthenticated, (req, res) => {
+  res.render('users/login')
 })
 
-app.get('/login', (req, res) => {
-    res.render('login');
+app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
+  successRedirect: '/user',
+  failureRedirect: '/login',
+  failureFlash: true
+}))
+
+app.get('/register', checkNotAuthenticated, (req, res) => {
+  res.render('users/register')
 })
 
-app.post("/login", (req,res) =>{
-    res.redirect("/")
-    User.authenticate(req.body.email, req.body.password, (error, user) =>{
-        if(!error || user){
-            res.render("login")
-            currentUser = user;  
-        }else {
-            res.render('error')
-        }
+app.post('/register', checkNotAuthenticated, async (req, res) => {
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10)
+    users.push({
+      id: Date.now().toString(),
+      name: req.body.name,
+      email: req.body.email,
+      password: hashedPassword
     })
+    res.redirect('/login')
+  } catch {
+    res.redirect('/register')
+  }
 })
 
-app.post('/register', (req, res) => {  
-    let user = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        position: req.body.position
-    });
-    res.redirect("/login")
-    user.save(function (err) {
-    if (err) {
-    	if (err.name === "MongoError" && err.code === 11000) {
-    		res.render('error', {
-    			error_code: '11000',
-                head: 'Invalid_User_MongoError-11000',
-                message: 'Please logout and try again. If the error still persist, please contact our customer support +6732332065 via WhatsApp',
-    			href: "signup"
-    		});
-    	}
-    }
-    console.log(req.body.password)
-    });
+app.delete('/logout', (req, res) => {
+  req.logOut()
+  res.redirect('/login')
 })
+
+function checkAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next()
+  }
+
+  res.redirect('/login')
+}
+
+function checkNotAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return res.redirect('/')
+  }
+  next()
+}
 
 
 //Product
-app.get('/', async (req,res) =>{
+app.post('/product', async (req,res) =>{
+    const product = await Producto.find().sort({ createdAt: 'desc'})
+      res.render('product/index', { products: product})
+  })
+app.get('/product', async (req,res) =>{
     const product = await Producto.find().sort({ createdAt: 'desc'})
       res.render('product/index', { products: product})
   })
@@ -128,11 +163,12 @@ app.get('/', async (req,res) =>{
       next()
   }, saveProductAndRedirect('edit'))
   
-  
+
   app.delete('/product/:id', async (req,res)=>{
       await Product.findByIdAndDelete(req.params.id)
-      res.redirect('/')
+      res.redirect('/product')
   })
+
   
   
   
@@ -149,6 +185,26 @@ app.get('/', async (req,res) =>{
               product.payment = req.body.payment
               product.remarks = req.body.remarks
               product.restock = req.body.restock
+              product.trackingNumber = req.body.trackingNumber
+              product.trackingNumber2 = req.body.trackingNumber2
+              product.trackingNumber3 = req.body.trackingNumber3
+              product.trackingNumber4 = req.body.trackingNumber4
+              product.trackingNumber5 = req.body.trackingNumber5
+              product.trackingNumber6 = req.body.trackingNumber6
+              product.trackingNumber7 = req.body.trackingNumber7
+              product.trackingNumber8 = req.body.trackingNumber8
+              product.trackingNumber9 = req.body.trackingNumber9
+              product.trackingNumber10 = req.body.trackingNumber10
+              product.trackingNumber11 = req.body.trackingNumber11
+              product.trackingNumber12 = req.body.trackingNumber12
+              product.trackingNumber13 = req.body.trackingNumber13
+              product.trackingNumber14 = req.body.trackingNumber14
+              product.trackingNumber15 = req.body.trackingNumber15
+              product.trackingNumber16 = req.body.trackingNumber16
+              product.trackingNumber17 = req.body.trackingNumber17
+              product.trackingNumber18 = req.body.trackingNumber18
+              product.trackingNumber19 = req.body.trackingNumber19
+              product.trackingNumber20 = req.body.trackingNumber20
           try{
           product = await product.save()
           res.redirect(`/product/${product.id}`)
@@ -309,6 +365,10 @@ app.get('/pod', async (req,res) =>{
       res.render('pod/pod_index', { pods: pod})
   })
 
+app.get('/podv2', async (req,res)=>{
+    res.render('pod/pod_new_v2');
+})
+
 app.get('./pod/new', function(req,res){
     res.render('pod/pod_new');
 });
@@ -358,7 +418,26 @@ function savePodAndRedirect(path)   {
         pod.podnumber = req.body.podnumber
         pod.poddate = req.body.poddate
         pod.podcreation = req.body.podcreation
-        pod.podtaskid = req.body.podtaskid
+        pod.trackingNumber = req.body.trackingNumber
+        pod.trackingNumber2 = req.body.trackingNumber2
+        pod.trackingNumber3 = req.body.trackingNumber3
+        pod.trackingNumber4 = req.body.trackingNumber4
+        pod.trackingNumber5 = req.body.trackingNumber5
+        pod.trackingNumber6 = req.body.trackingNumber6
+        pod.trackingNumber7 = req.body.trackingNumber7
+        pod.trackingNumber8 = req.body.trackingNumber8
+        pod.trackingNumber9 = req.body.trackingNumber9
+        pod.trackingNumber10 = req.body.trackingNumber10
+        pod.trackingNumber11 = req.body.trackingNumber11
+        pod.trackingNumber12 = req.body.trackingNumber12
+        pod.trackingNumber13 = req.body.trackingNumber13
+        pod.trackingNumber14 = req.body.trackingNumber14
+        pod.trackingNumber15 = req.body.trackingNumber15
+        pod.trackingNumber16 = req.body.trackingNumber16
+        pod.trackingNumber17 = req.body.trackingNumber17
+        pod.trackingNumber18 = req.body.trackingNumber18
+        pod.trackingNumber19 = req.body.trackingNumber19
+        pod.trackingNumber20 = req.body.trackingNumber20
         pod.podaddress = req.body.podaddress
         pod.podprice = req.body.podprice
         pod.poddriver = req.body.poddriver
@@ -379,6 +458,7 @@ app.get('/user/:id', async (req, res) => {
     const user = await User.findById(req.params.id)
     if (user == null) res.redirect('/')
     res.render('userprofile', { user: user })
+    
   })
 
 
@@ -389,6 +469,6 @@ app.get('/test', (req,res)=>{
     res.render('sale/test');
 })
 
-app.listen(process.env.PORT || 3000, function(){
+app.listen(process.env.PORT || 8000, function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
